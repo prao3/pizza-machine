@@ -56,12 +56,20 @@ public class testCharacterMovement2 : MonoBehaviour {
     }
 
     //Checks if the player object has left the ground
-    void OnCollisionExit2D(Collision2D coll)
+    void OnCollisionExit2D(Collision2D exit)
     {
-        if (isGrounded() && (coll.gameObject.CompareTag("ground") || coll.gameObject.CompareTag("Player")))
+        if (exit.gameObject.CompareTag("Player"))
         {
-            grounded = false;
+            if (exit.gameObject.CompareTag("ground"))
+                grounded = false;
+
         }
+
+        if (exit.gameObject.CompareTag("Player") && !exit.gameObject.CompareTag("ground"))
+            grounded = false;
+
+        if (exit.gameObject.CompareTag("ground"))
+            grounded = false;
 
     }
 
