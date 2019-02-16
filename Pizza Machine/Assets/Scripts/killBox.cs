@@ -5,12 +5,14 @@ using UnityEngine;
 public class killBox : MonoBehaviour
 {
 
+    //The starting position of the player
     private Vector3 start;
 
     // Start is called before the first frame update
     void Start()
     {
 
+        //Setting the starting position of the player to where the player is on start
         start = transform.position;
 
     }
@@ -21,10 +23,12 @@ public class killBox : MonoBehaviour
         
     }
 
+    //Checking if player is inside the kill box
     void OnTriggerEnter2D(Collider2D col)
     {
         if (col.gameObject.CompareTag("Kill Box"))
         {
+            //Moving the player back to the start (respawn)
             Debug.Log(col.gameObject.tag);
             transform.position = start;
         }
