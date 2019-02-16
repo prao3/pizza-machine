@@ -357,7 +357,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   xspeed: 0.1
   yspeed: 0.1
-  oscTime: 0.01
+  oscTime: 1
 --- !u!61 &1215600428
 BoxCollider2D:
   m_ObjectHideFlags: 0

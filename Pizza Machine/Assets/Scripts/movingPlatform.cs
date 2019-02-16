@@ -9,6 +9,7 @@ public class movingPlatform : MonoBehaviour
     public float yspeed = 1.0f;
     public float oscTime = 1.0f;
     private bool flip = true;
+    private float time = 0.0f;
 
     // Start is called before the first frame update
     void Start()
@@ -20,14 +21,22 @@ public class movingPlatform : MonoBehaviour
     void Update()
     {
 
-        if (Time.deltaTime % oscTime == 0)
+        time += Time.deltaTime;
+
+        if (time >= oscTime)
+        {
             flip = !flip;
+            time = 0;
+        }
 
         if (flip)
             transform.position = transform.position + new Vector3(xspeed, yspeed, 0);
 
         else
-            transform.position = transform.position + new Vector3(-xspeed, -yspeed, 0);
+            transform.position = transform.position - new Vector3(xspeed, yspeed, 0);
+
+        Debug.Log(time);
+        Debug.Log("flip = " + flip);
 
     }
 }
