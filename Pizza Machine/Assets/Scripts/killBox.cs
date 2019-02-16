@@ -4,10 +4,15 @@ using UnityEngine;
 
 public class killBox : MonoBehaviour
 {
+
+    private Vector3 start;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+
+        start = transform.position;
+
     }
 
     // Update is called once per frame
@@ -21,7 +26,7 @@ public class killBox : MonoBehaviour
         if (col.gameObject.CompareTag("Kill Box"))
         {
             Debug.Log(col.gameObject.tag);
-            Destroy(this.gameObject);
+            transform.position = start;
         }
     }
 }
