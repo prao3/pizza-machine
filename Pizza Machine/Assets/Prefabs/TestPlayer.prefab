@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2547699676001176792}
   - component: {fileID: 2547699676001176799}
   - component: {fileID: 2547699676001176798}
+  - component: {fileID: 7649547634236425571}
   m_Layer: 0
   m_Name: TestPlayer
   m_TagString: Player
@@ -139,5 +140,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ebc9df54c00887b4aaf2784a220b9f7b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 4
+  jumpPower: 5
+--- !u!114 &7649547634236425571
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2547699676001176797}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea2f626c31e9016409e98d2abde07b33, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

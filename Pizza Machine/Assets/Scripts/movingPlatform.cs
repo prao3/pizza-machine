@@ -35,8 +35,8 @@ public class movingPlatform : MonoBehaviour
         else
             transform.position = transform.position - new Vector3(xspeed, yspeed, 0);
 
-        Debug.Log(time);
-        Debug.Log("flip = " + flip);
+        //Debug.Log(time);
+        //Debug.Log("flip = " + flip);
 
     }
 }
