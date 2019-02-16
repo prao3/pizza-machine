@@ -16,6 +16,9 @@ public class testCharacterMovement2 : MonoBehaviour {
     //Checks if the player is on the ground
     private bool grounded = true;
 
+    //an int to keep track of jumps
+    private int jumpCount = 0;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -29,15 +32,15 @@ public class testCharacterMovement2 : MonoBehaviour {
     void Update()
     {
 
-        if (Input.GetKey(KeyCode.D))
+        if (Input.GetKey(KeyCode.RightArrow))
             playerRigidBody2D.velocity = new Vector2(speed, playerRigidBody2D.velocity.y);
 
-        else if (Input.GetKey(KeyCode.A))
+        else if (Input.GetKey(KeyCode.LeftArrow))
             playerRigidBody2D.velocity = new Vector2(-speed, playerRigidBody2D.velocity.y);
 
 
         //Checking if the player object can jump
-        if (Input.GetKeyDown(KeyCode.W) && isGrounded())
+        if (Input.GetKeyDown(KeyCode.UpArrow) && jumpCount < 2)
             jump();
 
     }
@@ -51,8 +54,18 @@ public class testCharacterMovement2 : MonoBehaviour {
     //Checks if the player object is on the ground
     void OnCollisionEnter2D(Collision2D coll)
     {
-        if (coll.gameObject.CompareTag("ground") || coll.gameObject.CompareTag("Player"))
+        if (coll.gameObject.CompareTag("ground"))
+        {
             grounded = true;
+            jumpCount = 0;
+        }
+
+        if(coll.gameObject.CompareTag("Player"))
+        {
+            grounded = true;
+            jumpCount = 1;
+        }
+
     }
 
     //Checks if the player object has left the ground
@@ -61,11 +74,14 @@ public class testCharacterMovement2 : MonoBehaviour {
         if (exit.gameObject.CompareTag("Player"))
         {
             if (exit.gameObject.CompareTag("ground"))
+            {
                 grounded = false;
+                jumpCount++; ;
+            }
 
         }
 
-        if (exit.gameObject.CompareTag("Player") && !exit.gameObject.CompareTag("ground"))
+        if (exit.gameObject.CompareTag("Player") && jumpCount == 1)
             grounded = false;
 
         if (exit.gameObject.CompareTag("ground"))
@@ -77,6 +93,7 @@ public class testCharacterMovement2 : MonoBehaviour {
     void jump()
     {
         playerRigidBody2D.velocity = new Vector2(playerRigidBody2D.velocity.x, jumpPower);
+        jumpCount++;
     }
 
 }

@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class testCharacterMovement : MonoBehaviour {
+public class testCharacterMovement : MonoBehaviour
+{
 
     //The rigid body of the player object
     private Rigidbody2D playerRigidBody2D;
@@ -16,29 +17,34 @@ public class testCharacterMovement : MonoBehaviour {
     //Checks if the player is on the ground
     private bool grounded = true;
 
-	// Use this for initialization
-	void Start () {
+    //an int to keep track of jumps
+    private int jumpCount = 0;
+
+    // Start is called before the first frame update
+    void Start()
+    {
 
         //Getting the rigid body of the player
         playerRigidBody2D = (Rigidbody2D)GetComponent(typeof(Rigidbody2D));
-		
-	}
-	
-	// Update is called once per frame hopefully
-	void Update () {
 
-        if (Input.GetKey(KeyCode.RightArrow))
-            right();
+    }
 
-        else if (Input.GetKey(KeyCode.LeftArrow))
-            left();
-        
+    // Update is called once per frame
+    void Update()
+    {
+
+        if (Input.GetKey(KeyCode.D))
+            playerRigidBody2D.velocity = new Vector2(speed, playerRigidBody2D.velocity.y);
+
+        else if (Input.GetKey(KeyCode.A))
+            playerRigidBody2D.velocity = new Vector2(-speed, playerRigidBody2D.velocity.y);
+
 
         //Checking if the player object can jump
-        if (Input.GetKeyDown(KeyCode.UpArrow) && isGrounded())
+        if (Input.GetKeyDown(KeyCode.W) && jumpCount < 2)
             jump();
-		
-	}
+
+    }
 
     //Returns a value indicating if the player object is on the ground or not
     public bool isGrounded()
@@ -49,8 +55,17 @@ public class testCharacterMovement : MonoBehaviour {
     //Checks if the player object is on the ground
     void OnCollisionEnter2D(Collision2D coll)
     {
-        if(coll.gameObject.CompareTag("ground") || coll.gameObject.CompareTag("Player"))
+        if (coll.gameObject.CompareTag("ground"))
+        {
             grounded = true;
+            jumpCount = 0;
+        }
+        if (coll.gameObject.CompareTag("Player"))
+        {
+            grounded = true;
+            jumpCount = 1;
+        }
+
     }
 
     //Checks if the player object has left the ground
@@ -59,11 +74,14 @@ public class testCharacterMovement : MonoBehaviour {
         if (exit.gameObject.CompareTag("Player"))
         {
             if (exit.gameObject.CompareTag("ground"))
+            {
                 grounded = false;
+                jumpCount++;
+            }
 
         }
 
-        if (exit.gameObject.CompareTag("Player") && !exit.gameObject.CompareTag("ground"))
+        if (exit.gameObject.CompareTag("Player") && jumpCount == 1)
             grounded = false;
 
         if (exit.gameObject.CompareTag("ground"))
@@ -74,17 +92,8 @@ public class testCharacterMovement : MonoBehaviour {
     //Lets the player object jump
     void jump()
     {
+        jumpCount++;
         playerRigidBody2D.velocity = new Vector2(playerRigidBody2D.velocity.x, jumpPower);
-    }
-
-    void left()
-    {
-        playerRigidBody2D.velocity = new Vector2(-speed, playerRigidBody2D.velocity.y);
-    }
-
-    void right()
-    {
-        playerRigidBody2D.velocity = new Vector2(speed, playerRigidBody2D.velocity.y);
     }
 
 }
