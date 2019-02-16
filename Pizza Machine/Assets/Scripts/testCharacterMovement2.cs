@@ -8,10 +8,10 @@ public class testCharacterMovement2 : MonoBehaviour {
     private Rigidbody2D playerRigidBody2D;
 
     //The speed of the player object when moving
-    private float speed = 4.0f;
+    public float speed = 4.0f;
 
     //How high the player object can jump
-    private float jumpPower = 5.0f;
+    public float jumpPower = 5.0f;
 
     //Checks if the player is on the ground
     private bool grounded = true;
