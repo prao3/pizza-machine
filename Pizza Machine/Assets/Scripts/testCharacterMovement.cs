@@ -49,7 +49,7 @@ public class testCharacterMovement : MonoBehaviour {
     //Checks if the player object is on the ground
     void OnCollisionEnter2D(Collision2D coll)
     {
-        if(coll.gameObject.CompareTag("ground"))
+        if(coll.gameObject.CompareTag("ground") || coll.gameObject.CompareTag("Player"))
             grounded = true;
     }
 
