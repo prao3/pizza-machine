@@ -6,22 +6,58 @@ public class cameraScript : MonoBehaviour
 
     public GameObject player1;
     public GameObject player2;
-    private Vector3 lastPlayerPosition;
-    private float distanceToMove;
+    private Vector3 lastPlayerPosition1;
+    private float distanceToMove1;
+    private Vector3 lastPlayerposition;
+    private float distanceToMove2;
+    public Camera camera;
 
     // Use this for initialization
     void Start()
     {
-        lastPlayerPosition = player1.transform.position;
+        lastPlayerPosition1 = player1.transform.position;
+       // lastPlayerPosition2 = player2.transform.position;
     }
 
     // Update is called once per frame
     void Update()
+    {//12 and 25 are arbitrary values where the camera is in a good spot
+        if(!(playerDist() <= 5) /*|| !(playerDist() >= 25)*/)
+             FixedCameraFollowSmooth(camera, player1.transform, player2.transform);
+    }
+
+    // Follow Two Transforms with a Fixed-Orientation Camera
+    public void FixedCameraFollowSmooth(Camera cam, Transform t1, Transform t2)
     {
-        distanceToMove = player1.transform.position.x - lastPlayerPosition.x;
+        // How many units should we keep from the players
+        float zoomFactor = 2f;
+        float followTimeDelta = 0.8f;
 
-        transform.position = new Vector3(transform.position.x + distanceToMove, transform.position.y , transform.position.z);
+        // Midpoint we're after
+        Vector3 midpoint = (t1.position + t2.position) / 2f;
 
-        lastPlayerPosition = player1.transform.position;
+        // Distance between objects
+        float distance = (t1.position - t2.position).magnitude;
+
+        // Move camera a certain distance
+        Vector3 cameraDestination = midpoint - cam.transform.forward * distance * zoomFactor;
+
+        // Adjust ortho size if we're using one of those
+        if (cam.orthographic)
+        {
+            // The camera's forward vector is irrelevant, only this size will matter
+            cam.orthographicSize = distance;
+        }
+        // You specified to use MoveTowards instead of Slerp
+        cam.transform.position = Vector3.Slerp(cam.transform.position, cameraDestination, followTimeDelta);
+
+        // Snap when close enough to prevent annoying slerp behavior
+        if ((cameraDestination - cam.transform.position).magnitude <= 0.005f)
+            cam.transform.position = cameraDestination;
+    }
+
+    public float playerDist()
+    {
+        return (player1.transform.position - player2.transform.position).magnitude;
     }
 }
