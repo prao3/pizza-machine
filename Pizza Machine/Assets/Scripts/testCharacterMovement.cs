@@ -16,6 +16,11 @@ public class testCharacterMovement : MonoBehaviour {
         playerRigidBody2D = (Rigidbody2D)GetComponent(typeof(Rigidbody2D));
 		
 	}
+
+    public bool isGrounded()
+    {
+        return grounded;
+    }
 	
 	// Update is called once per frame hopefully
 	void Update () {
@@ -23,23 +28,30 @@ public class testCharacterMovement : MonoBehaviour {
         movePlayerVector = Input.GetAxis("Horizontal");
         playerRigidBody2D.velocity = new Vector2(movePlayerVector * speed, playerRigidBody2D.velocity.y);
 
-        if (Input.GetKeyDown(KeyCode.UpArrow) && grounded)
+        if (Input.GetKeyDown(KeyCode.UpArrow) && isGrounded())
             jump();
+      /*  if ((!isGrounded() ) && (playerRigidBody2D.velocity.y == 0))
+        {
+            grounded = true;
+        }*/
 		
 	}
 
-    void OnTriggeredEnter2D()
+  void OnCollisionStay(Collision coll)
     {
-        //if(other.gameObject.CompareTag("ground"))
-            grounded = true;
+        grounded = true;
+    }
+    void OnCollisionExit(Collision coll)
+    {
+        if (isGrounded())
+        {
+            grounded = false;
+        }
     }
 
     void jump()
     {
         playerRigidBody2D.velocity = new Vector2(playerRigidBody2D.velocity.x, jumpPower);
     }
-    void OnTriggeredExit2D()
-    {
-        grounded = false;
-    }
+
 }
