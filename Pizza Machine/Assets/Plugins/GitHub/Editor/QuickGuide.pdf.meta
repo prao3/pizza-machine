@@ -1,7 +1,11 @@
 fileFormatVersion: 2
 guid: d601ecb6855bb432bae2aa49d8fd82e8
 timeCreated: 1526676893
+<<<<<<< HEAD
 licenseType: Store
+=======
+licenseType: Pro
+>>>>>>> c4b5a637817f287d6059775a9d5590c619b6c63b
 DefaultImporter:
   userData:
   assetBundleName:
