@@ -8,7 +8,7 @@ public class testCharacterMovement : MonoBehaviour {
     private float movePlayerVector;
     private float speed = 4.0f;
     private float jumpPower = 5.0f;
-    private bool grounded = false;
+    private bool grounded = true;
 
 	// Use this for initialization
 	void Start () {
@@ -22,9 +22,9 @@ public class testCharacterMovement : MonoBehaviour {
 
         movePlayerVector = Input.GetAxis("Horizontal");
         playerRigidBody2D.velocity = new Vector2(movePlayerVector * speed, playerRigidBody2D.velocity.y);
-        
+
         if (Input.GetKeyDown(KeyCode.UpArrow) && grounded)
-            playerRigidBody2D.velocity = new Vector2(playerRigidBody2D.velocity.x, jumpPower);
+            jump();
 		
 	}
 
@@ -34,6 +34,10 @@ public class testCharacterMovement : MonoBehaviour {
             grounded = true;
     }
 
+    void jump()
+    {
+        playerRigidBody2D.velocity = new Vector2(playerRigidBody2D.velocity.x, jumpPower);
+    }
     void OnTriggeredExit2D()
     {
         grounded = false;
