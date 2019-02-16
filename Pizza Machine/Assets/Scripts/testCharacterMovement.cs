@@ -37,12 +37,6 @@ public class testCharacterMovement : MonoBehaviour {
 		
 	}
 
-<<<<<<< HEAD
-    void OnTriggeredEnter2D(Collision other)
-    {
-        if(other.gameObject.CompareTag("ground"))
-            grounded = true;
-=======
   void OnCollisionStay(Collision coll)
     {
         grounded = true;
@@ -53,23 +47,12 @@ public class testCharacterMovement : MonoBehaviour {
         {
             grounded = false;
         }
->>>>>>> a369152d1021a78b796ce6f07deeb74e28a9344c
+
     }
 
-<<<<<<< HEAD
-    void OnTriggeredExit2D(Collision other)
-=======
     void jump()
     {
         playerRigidBody2D.velocity = new Vector2(playerRigidBody2D.velocity.x, jumpPower);
     }
-<<<<<<< HEAD
-    void OnTriggeredExit2D()
->>>>>>> c4b5a637817f287d6059775a9d5590c619b6c63b
-    {
-        grounded = false;
-    }
-=======
 
->>>>>>> a369152d1021a78b796ce6f07deeb74e28a9344c
 }
