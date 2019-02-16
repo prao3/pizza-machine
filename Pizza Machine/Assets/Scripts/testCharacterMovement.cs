@@ -26,12 +26,12 @@ public class testCharacterMovement : MonoBehaviour {
 	
 	// Update is called once per frame hopefully
 	void Update () {
-        
+
         if (Input.GetKey(KeyCode.RightArrow))
-            playerRigidBody2D.velocity = new Vector2(speed, playerRigidBody2D.velocity.y);
+            right();
 
         else if (Input.GetKey(KeyCode.LeftArrow))
-            playerRigidBody2D.velocity = new Vector2(-speed, playerRigidBody2D.velocity.y);
+            left();
         
 
         //Checking if the player object can jump
@@ -66,6 +66,16 @@ public class testCharacterMovement : MonoBehaviour {
     void jump()
     {
         playerRigidBody2D.velocity = new Vector2(playerRigidBody2D.velocity.x, jumpPower);
+    }
+
+    void left()
+    {
+        playerRigidBody2D.velocity = new Vector2(-speed, playerRigidBody2D.velocity.y);
+    }
+
+    void right()
+    {
+        playerRigidBody2D.velocity = new Vector2(speed, playerRigidBody2D.velocity.y);
     }
 
 }
