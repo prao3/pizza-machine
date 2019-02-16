@@ -17,7 +17,7 @@ public class testCharacterMovement : MonoBehaviour {
 		
 	}
 	
-	// Update is called once per frame
+	// Update is called once per frame hopefully
 	void Update () {
 
         movePlayerVector = Input.GetAxis("Horizontal");
