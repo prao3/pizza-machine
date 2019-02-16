@@ -7,9 +7,11 @@ public class cameraScript : MonoBehaviour
     public GameObject player1;
     public GameObject player2;
     private Vector3 lastPlayerPosition1;
-    private float distanceToMove1;
     private Vector3 lastPlayerPosition2;
-    private float distanceToMove2;
+    private float distanceToMovex1;
+    private float distanceToMovex2;
+    private float distanceToMovey1;
+    private float distanceToMovey2;
     public Camera camera;
 
     // Use this for initialization
@@ -22,15 +24,18 @@ public class cameraScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        distanceToMove1 = player1.transform.position.x - lastPlayerPosition1.x;
-        distanceToMove2 = player2.transform.position.x - lastPlayerPosition2.x;
+        distanceToMovex1 = player1.transform.position.x - lastPlayerPosition1.x;
+        distanceToMovex2 = player2.transform.position.x - lastPlayerPosition2.x;
+
+        distanceToMovey1 = player1.transform.position.y - lastPlayerPosition1.y;
+        distanceToMovey2 = player2.transform.position.y - lastPlayerPosition2.y;
         //5 is an arbitrary value where the camera is in a good spot
         if (!(playerDist() <= 5) /*|| !(playerDist() >= 25)*/)
             FixedCameraFollowSmooth(camera, player1.transform, player2.transform);
         //Just move the camera normally
         else
         {
-            camera.transform.position = new Vector3(camera.transform.position.x + ((distanceToMove1 + distanceToMove2) / 2), camera.transform.position.y, camera.transform.position.z);
+            camera.transform.position = new Vector3(camera.transform.position.x + ((distanceToMovex1 + distanceToMovex2) / 2), camera.transform.position.y + ((distanceToMovey1 + distanceToMovey2) / 2), camera.transform.position.z);
         }
         lastPlayerPosition1 = player1.transform.position;
         lastPlayerPosition2 = player2.transform.position;
