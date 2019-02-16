@@ -28,13 +28,13 @@ public class testCharacterMovement : MonoBehaviour {
 		
 	}
 
-    void OnTriggeredEnter2D()
+    void OnTriggeredEnter2D(Collision other)
     {
-        //if(other.gameObject.CompareTag("ground"))
+        if(other.gameObject.CompareTag("ground"))
             grounded = true;
     }
 
-    void OnTriggeredExit2D()
+    void OnTriggeredExit2D(Collision other)
     {
         grounded = false;
     }
