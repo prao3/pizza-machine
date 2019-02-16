@@ -37,11 +37,11 @@ public class testCharacterMovement : MonoBehaviour {
 		
 	}
 
-  void OnCollisionStay(Collision coll)
+  void OnCollisionEnter2D(Collision2D coll)
     {
         grounded = true;
     }
-    void OnCollisionExit(Collision coll)
+    void OnCollisionExit2D(Collision2D coll)
     {
         if (isGrounded())
         {
