@@ -29,13 +29,17 @@ public class cameraScript : MonoBehaviour
 
         distanceToMovey1 = player1.transform.position.y - lastPlayerPosition1.y;
         distanceToMovey2 = player2.transform.position.y - lastPlayerPosition2.y;
-        //5 is an arbitrary value where the camera is in a good spot
-        if (!(playerDist() <= 7) /*&& !(playerDist() >= 15)*/)
-            FixedCameraFollowSmooth(camera, player1.transform, player2.transform);
-        //Just move the camera normally
+        //7 is an arbitrary value where the camera is in a good spot
+        //if the players are fairly close or failry far away just lock the camera zoom and follow them
+        if ((getPlayerDist() <= 7) /*&& (playerDist() >= 15)*/)
+        {
+            camera.transform.position = new Vector3(camera.transform.position.x + averageDist(distanceToMovex1, distanceToMovex2),
+               camera.transform.position.y + averageDist(distanceToMovey1, distanceToMovey2), camera.transform.position.z);
+        }    
+        //Just move the camera normally with player zoom
         else
         {
-            camera.transform.position = new Vector3(camera.transform.position.x + ((distanceToMovex1 + distanceToMovex2) / 2), camera.transform.position.y + ((distanceToMovey1 + distanceToMovey2) / 2), camera.transform.position.z);
+            FixedCameraFollowSmooth(camera, player1.transform, player2.transform);
         }
         lastPlayerPosition1 = player1.transform.position;
         lastPlayerPosition2 = player2.transform.position;
@@ -73,8 +77,16 @@ public class cameraScript : MonoBehaviour
             cam.transform.position = cameraDestination;
     }
 
-    public float playerDist()
+    //returns the magnitude of the vecotr between the two players 
+    public float getPlayerDist()
     {
         return (player1.transform.position - player2.transform.position).magnitude;
     }
+
+    //Averages the two inputted floats
+    public float averageDist(float dist1, float dist2)
+    {
+     return   (dist1 + dist2 )/ 2;
+    }
+
 }
