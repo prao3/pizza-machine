@@ -30,7 +30,7 @@ public class cameraScript : MonoBehaviour
         distanceToMovey1 = player1.transform.position.y - lastPlayerPosition1.y;
         distanceToMovey2 = player2.transform.position.y - lastPlayerPosition2.y;
         //5 is an arbitrary value where the camera is in a good spot
-        if (!(playerDist() <= 5) /*|| !(playerDist() >= 25)*/)
+        if (!(playerDist() <= 7) /*&& !(playerDist() >= 15)*/)
             FixedCameraFollowSmooth(camera, player1.transform, player2.transform);
         //Just move the camera normally
         else
@@ -45,14 +45,14 @@ public class cameraScript : MonoBehaviour
     public void FixedCameraFollowSmooth(Camera cam, Transform t1, Transform t2)
     {
         // How many units should we keep from the players
-        float zoomFactor = 1.8f;
+        float zoomFactor = 1.2f;
         float followTimeDelta = 0.8f;
 
         // Midpoint we're after
         Vector3 midpoint = (t1.position + t2.position) / 2f;
 
         // Distance between objects
-        float distance = (t1.position - t2.position).magnitude;
+        float distance = (t1.position - t2.position).magnitude > 0 ? (t1.position - t2.position).magnitude  : (t2.position - t1.position).magnitude;
 
         // Move camera a certain distance
         Vector3 cameraDestination = midpoint - cam.transform.forward * distance * zoomFactor;
@@ -64,7 +64,7 @@ public class cameraScript : MonoBehaviour
             cam.orthographicSize = distance;
         }
 
-        cam.transform.position = new Vector3(cam.transform.position.x + ((player1.transform.position.x + player2.transform.position.x) / 2), cam.transform.position.y, cam.transform.position.z);
+        cam.transform.position = new Vector3(cam.transform.position.x + Mathf.Abs(((player1.transform.position.x - player2.transform.position.x))/2) , cam.transform.position.y, cam.transform.position.z);
         // You specified to use MoveTowards instead of Slerp
         cam.transform.position = Vector3.Slerp(cam.transform.position, cameraDestination, followTimeDelta);
 
