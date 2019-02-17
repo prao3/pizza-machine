@@ -60,4 +60,17 @@ public class movingPlatform : MonoBehaviour
         //Debug.Log("flip = " + flip);
 
     }
+
+    void OnCollisionEnter2D(Collider coll)
+    {
+        if (coll.gameObject.CompareTag("Player"))
+            coll.transform.parent = coll.transform;
+    }
+
+    private void OnCollisionExit2D(Collider coll)
+    {
+        if (coll.transform.tag == "Player")
+            coll.transform.parent = null;
+    }
+
 }
