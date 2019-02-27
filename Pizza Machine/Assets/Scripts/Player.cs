@@ -64,14 +64,14 @@ public class Player : MonoBehaviour
     }
 
     //Checks if the player object is on the ground
-    void OnCollisionEnter2D(Collision2D coll)
+    void OnCollisionEnter2D(Collider coll)
     {
-        if (coll.gameObject.CompareTag("ground"))
+        if (collideWithGround(coll))
         {
             grounded = true;
             jumpCount = 0;
         }
-        if (coll.gameObject.CompareTag("Player"))
+        if (collideWithPlayer(coll))
         {
             grounded = true;
             jumpCount = 1;
@@ -80,11 +80,11 @@ public class Player : MonoBehaviour
     }
 
     //Checks if the player object has left the ground
-    void OnCollisionExit2D(Collision2D exit)
+    void OnCollisionExit2D(Collider exit)
     {
-        if (exit.gameObject.CompareTag("Player"))
+        if (collideWithPlayer(exit))
         {
-            if (exit.gameObject.CompareTag("ground"))
+            if (collideWithGround(exit))
             {
                 grounded = false;
                 jumpCount++;
@@ -92,12 +92,22 @@ public class Player : MonoBehaviour
 
         }
 
-        if (exit.gameObject.CompareTag("Player") && jumpCount == 1)
+        if (collideWithPlayer(exit) && jumpCount == 1)
             grounded = false;
 
-        if (exit.gameObject.CompareTag("ground"))
+        if (collideWithGround(exit))
             grounded = false;
 
+    }
+
+    bool collideWithPlayer(Collider coll)
+    {
+        return coll.gameObject.CompareTag("Player");
+    }
+
+    bool collideWithGround(Collider coll)
+    {
+        return coll.gameObject.CompareTag("ground");
     }
 
     //Lets the player object jump
