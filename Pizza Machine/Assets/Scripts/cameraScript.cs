@@ -6,46 +6,39 @@ public class cameraScript : MonoBehaviour
 
     public GameObject player1;
     public GameObject player2;
-    private Vector3 _lastPlayerPosition1;
-    private Vector3 _lastPlayerPosition2;
-    private float _distanceToMovex1;
-    private float _distanceToMovex2;
-    private float _distanceToMovey1;
-    private float _distanceToMovey2;
+    private Vector3 lastPlayerPosition1;
+    private Vector3 lastPlayerPosition2;
+    private float distanceToMovex1;
+    private float distanceToMovex2;
+    private float distanceToMovey1;
+    private float distanceToMovey2;
     public Camera camera;
 
     // Use this for initialization
     void Start()
     {
-        _lastPlayerPosition1 = player1.transform.position;
-        _lastPlayerPosition2 = player2.transform.position;
+        lastPlayerPosition1 = player1.transform.position;
+        lastPlayerPosition2 = player2.transform.position;
     }
 
     // Update is called once per frame
     void Update()
     {
-        Vector3 playerPosition1 = player1.transform.position;
-        _distanceToMovex1 = playerPosition1.x - _lastPlayerPosition1.x;
-        Vector3 playerPosition2 = player2.transform.position;
-        _distanceToMovex2 = playerPosition2.x - _lastPlayerPosition2.x;
+        distanceToMovex1 = player1.transform.position.x - lastPlayerPosition1.x;
+        distanceToMovex2 = player2.transform.position.x - lastPlayerPosition2.x;
 
-        _distanceToMovey1 = playerPosition1.y - _lastPlayerPosition1.y;
-        _distanceToMovey2 = playerPosition2.y - _lastPlayerPosition2.y;
-        //7 is an arbitrary value where the camera is in a good spot
-        //if the players are fairly close or failry far away just lock the camera zoom and follow them
-        if ((getPlayerDist() <= 7) /*&& (playerDist() >= 15)*/)
-        {
-            Vector3 transformPosition = camera.transform.position;
-            camera.transform.position = new Vector3(transformPosition.x + averageDist(_distanceToMovex1, _distanceToMovex2),
-               transformPosition.y + averageDist(_distanceToMovey1, _distanceToMovey2), transformPosition.z);
-        }    
-        //Just move the camera normally with player zoom
+        distanceToMovey1 = player1.transform.position.y - lastPlayerPosition1.y;
+        distanceToMovey2 = player2.transform.position.y - lastPlayerPosition2.y;
+        //5 is an arbitrary value where the camera is in a good spot
+        if (!(playerDist() <= 7) /*&& !(playerDist() >= 15)*/)
+            FixedCameraFollowSmooth(camera, player1.transform, player2.transform);
+        //Just move the camera normally
         else
         {
-            FixedCameraFollowSmooth(camera, player1.transform, player2.transform);
+            camera.transform.position = new Vector3(camera.transform.position.x + ((distanceToMovex1 + distanceToMovex2) / 2), camera.transform.position.y + ((distanceToMovey1 + distanceToMovey2) / 2), camera.transform.position.z);
         }
-        _lastPlayerPosition1 = playerPosition1;
-        _lastPlayerPosition2 = playerPosition2;
+        lastPlayerPosition1 = player1.transform.position;
+        lastPlayerPosition2 = player2.transform.position;
     }
 
     // Follow Two Transforms with a Fixed-Orientation Camera
@@ -80,16 +73,8 @@ public class cameraScript : MonoBehaviour
             cam.transform.position = cameraDestination;
     }
 
-    //returns the magnitude of the vecotr between the two players 
-    public float getPlayerDist()
+    public float playerDist()
     {
         return (player1.transform.position - player2.transform.position).magnitude;
     }
-
-    //Averages the two inputted floats
-    public float averageDist(float dist1, float dist2)
-    {
-     return   (dist1 + dist2 )/ 2;
-    }
-
 }
